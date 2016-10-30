@@ -10,4 +10,7 @@
 
 @interface ZYMonthView : UIView
 @property (nonatomic, strong)NSDate *date;
+
+- (void)reload;
+
 @end

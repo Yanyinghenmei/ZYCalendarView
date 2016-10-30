@@ -12,7 +12,6 @@
 
 @implementation ZYCalendarView {
     CGSize lastSize;
-    CGFloat monthViewHeight;
     
     ZYMonthView *monthView1;
     ZYMonthView *monthView2;
@@ -27,8 +26,6 @@
     if (self = [super initWithFrame:frame]) {
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-        // 暂定
-        monthViewHeight = 300;
         helper = [JTDateHelper new];
     }
     return self;
@@ -54,11 +51,11 @@
     if(size.width != lastSize.width){
         lastSize = size;
         
-        monthView1.frame = CGRectMake(0, monthView1.frame.origin.y, size.width, monthViewHeight);
-        monthView2.frame = CGRectMake(0, monthView2.frame.origin.y, size.width, monthViewHeight);
-        monthView3.frame = CGRectMake(0, monthView3.frame.origin.y, size.width, monthViewHeight);
-        monthView4.frame = CGRectMake(0, monthView4.frame.origin.y, size.width, monthViewHeight);
-        monthView5.frame = CGRectMake(0, monthView5.frame.origin.y, size.width, monthViewHeight);
+        monthView1.frame = CGRectMake(0, monthView1.frame.origin.y, size.width, monthView1.frame.size.height);
+        monthView2.frame = CGRectMake(0, monthView2.frame.origin.y, size.width, monthView2.frame.size.height);
+        monthView3.frame = CGRectMake(0, monthView3.frame.origin.y, size.width, monthView3.frame.size.height);
+        monthView4.frame = CGRectMake(0, monthView4.frame.origin.y, size.width, monthView4.frame.size.height);
+        monthView5.frame = CGRectMake(0, monthView5.frame.origin.y, size.width, monthView5.frame.size.height);
         
         self.contentSize = CGSizeMake(size.width, self.contentSize.height);
     }
@@ -86,13 +83,15 @@
         [self addSubview:monthView3];
         [self addSubview:monthView4];
         [self addSubview:monthView5];
+        
+        self.date = _date;
     }
     
-    self.contentSize = CGSizeMake(size.width, monthViewHeight * 5);
+    self.contentSize = CGSizeMake(size.width, monthView1.frame.size.height + monthView2.frame.size.height + monthView3.frame.size.height + monthView4.frame.size.height + monthView5.frame.size.height);
+    self.contentOffset = CGPointMake(0, monthView1.frame.size.height + monthView2.frame.size.height);
     
     [self resetMonthViewsFrame];
     
-    self.contentOffset = CGPointMake(0, monthViewHeight * 2);
 }
 
 // 滚动了
@@ -101,19 +100,19 @@
         return;
     }
     
-    if(self.contentOffset.y < monthViewHeight / 2.0){
+    if(self.contentOffset.y < monthView1.frame.size.height + monthView2.frame.size.height/2.0){
         // 加载上一页(如果是当前日期的上一个月, 不加载)
         [self loadPreviousPage];
+        NSLog(@"上一页");
     }
-    else if(self.contentOffset.y > monthViewHeight * 1.5){
+    else if(self.contentOffset.y > monthView1.frame.size.height+monthView2.frame.size.height+monthView3.frame.size.height/2.0){
         // 加载下一页
         [self loadNextPage];
+        NSLog(@"下一页");
     }
 }
 
 - (void)loadPreviousPage {
-    
-    CGSize size = self.frame.size;
     
     ZYMonthView *tmpView = monthView5;
     
@@ -121,15 +120,19 @@
     monthView4 = monthView3;
     monthView3 = monthView2;
     monthView2 = monthView1;
+    
     monthView1 = tmpView;
+    
+    monthView1.date = [helper addToDate:monthView2.date months:-1];
     
     [self resetMonthViewsFrame];
     
-    self.contentOffset = CGPointMake(0, self.contentOffset.y + monthViewHeight);
-    self.contentSize = CGSizeMake(size.width, monthViewHeight * 5);
+    self.contentOffset = CGPointMake(0, self.contentOffset.y + monthView1.frame.size.height);
 }
 
 - (void)loadNextPage {
+    
+    CGFloat height1 = monthView1.frame.size.height;
     
     ZYMonthView *tmpView = monthView1;
     
@@ -137,31 +140,34 @@
     monthView2 = monthView3;
     monthView3 = monthView4;
     monthView4 = monthView5;
+    
     monthView5 = tmpView;
+    monthView5.date = [helper addToDate:monthView4.date months:1];
     
     [self resetMonthViewsFrame];
     
-    self.contentOffset = CGPointMake(0, self.contentOffset.y - monthViewHeight);
+    self.contentOffset = CGPointMake(0, self.contentOffset.y - height1);
 }
 
 - (void)resetMonthViewsFrame {
     CGSize size = self.frame.size;
-    monthView1.frame = CGRectMake(0, 0, size.width, monthViewHeight);
-    monthView2.frame = CGRectMake(0, monthViewHeight, size.width, monthViewHeight);
-    monthView3.frame = CGRectMake(0, monthViewHeight * 2, size.width, monthViewHeight);
-    monthView4.frame = CGRectMake(0, monthViewHeight * 3, size.width, monthViewHeight);
-    monthView5.frame = CGRectMake(0, monthViewHeight * 4, size.width, monthViewHeight);
-    self.contentSize = CGSizeMake(size.width, monthViewHeight * 5);
+    monthView1.frame = CGRectMake(0, 0, size.width, monthView1.frame.size.height);
+    monthView2.frame = CGRectMake(0, CGRectGetMaxY(monthView1.frame), size.width, monthView2.frame.size.height);
+    monthView3.frame = CGRectMake(0, CGRectGetMaxY(monthView2.frame), size.width, monthView3.frame.size.height);
+    monthView4.frame = CGRectMake(0, CGRectGetMaxY(monthView3.frame), size.width, monthView4.frame.size.height);
+    monthView5.frame = CGRectMake(0, CGRectGetMaxY(monthView4.frame), size.width, monthView5.frame.size.height);
+    self.contentSize = CGSizeMake(size.width,
+                                  monthView1.frame.size.height + monthView2.frame.size.height + monthView3.frame.size.height + monthView4.frame.size.height + monthView5.frame.size.height);
 }
 
 - (void)setDate:(NSDate *)date {
     _date = date;
     
-    monthView3.date = [helper addToDate:date months:-2];
-    monthView3.date = [helper addToDate:date months:-1];
+    monthView1.date = [helper addToDate:date months:-2];
+    monthView2.date = [helper addToDate:date months:-1];
     monthView3.date = date;
-    monthView3.date = [helper addToDate:date months:1];
-    monthView3.date = [helper addToDate:date months:2];
+    monthView4.date = [helper addToDate:date months:1];
+    monthView5.date = [helper addToDate:date months:2];
 }
 
 @end

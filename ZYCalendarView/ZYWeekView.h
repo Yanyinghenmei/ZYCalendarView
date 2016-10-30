@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ZYWeekView : UIView
-@property (nonatomic, strong)NSDate *date;
+
+@property (nonatomic, strong) NSDate *date;
+
 @end

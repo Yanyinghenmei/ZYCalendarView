@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		651DF13D1DC5F84900A9D7D9 /* ZYCalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */; };
 		65D2EECC1DC2FCB40034CB27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EECB1DC2FCB40034CB27 /* main.m */; };
 		65D2EECF1DC2FCB40034CB27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EECE1DC2FCB40034CB27 /* AppDelegate.m */; };
 		65D2EED21DC2FCB40034CB27 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EED11DC2FCB40034CB27 /* ViewController.m */; };
@@ -16,7 +17,6 @@
 		65D2EEE51DC2FCB40034CB27 /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EEE41DC2FCB40034CB27 /* ExampleTests.m */; };
 		65D2EEF01DC2FCB40034CB27 /* ExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EEEF1DC2FCB40034CB27 /* ExampleUITests.m */; };
 		65D2EF001DC33BD90034CB27 /* ZYCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EEFF1DC33BD90034CB27 /* ZYCalendarView.m */; };
-		65D2EF031DC350190034CB27 /* ZYCalendarMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EF021DC350190034CB27 /* ZYCalendarMonthView.m */; };
 		65D2EFF91DC357110034CB27 /* JTDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EFF81DC357110034CB27 /* JTDateHelper.m */; };
 		65D2EFFC1DC3576E0034CB27 /* ZYMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EFFB1DC3576E0034CB27 /* ZYMonthView.m */; };
 		65D2EFFF1DC35D010034CB27 /* ZYWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EFFE1DC35D010034CB27 /* ZYWeekView.m */; };
@@ -41,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		651DF13B1DC5F84900A9D7D9 /* ZYCalendarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYCalendarManager.h; sourceTree = "<group>"; };
+		651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarManager.m; sourceTree = "<group>"; };
 		65D2EEC71DC2FCB40034CB27 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D2EECB1DC2FCB40034CB27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		65D2EECD1DC2FCB40034CB27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -59,8 +61,6 @@
 		65D2EEF11DC2FCB40034CB27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65D2EEFE1DC33BD90034CB27 /* ZYCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYCalendarView.h; sourceTree = "<group>"; };
 		65D2EEFF1DC33BD90034CB27 /* ZYCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarView.m; sourceTree = "<group>"; };
-		65D2EF011DC350190034CB27 /* ZYCalendarMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYCalendarMonthView.h; sourceTree = "<group>"; };
-		65D2EF021DC350190034CB27 /* ZYCalendarMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarMonthView.m; sourceTree = "<group>"; };
 		65D2EFF71DC357110034CB27 /* JTDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTDateHelper.h; sourceTree = "<group>"; };
 		65D2EFF81DC357110034CB27 /* JTDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTDateHelper.m; sourceTree = "<group>"; };
 		65D2EFFA1DC3576E0034CB27 /* ZYMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYMonthView.h; sourceTree = "<group>"; };
@@ -164,8 +164,6 @@
 			children = (
 				65D2EEFE1DC33BD90034CB27 /* ZYCalendarView.h */,
 				65D2EEFF1DC33BD90034CB27 /* ZYCalendarView.m */,
-				65D2EF011DC350190034CB27 /* ZYCalendarMonthView.h */,
-				65D2EF021DC350190034CB27 /* ZYCalendarMonthView.m */,
 				65D2EFF71DC357110034CB27 /* JTDateHelper.h */,
 				65D2EFF81DC357110034CB27 /* JTDateHelper.m */,
 				65D2EFFA1DC3576E0034CB27 /* ZYMonthView.h */,
@@ -174,6 +172,8 @@
 				65D2EFFE1DC35D010034CB27 /* ZYWeekView.m */,
 				65D2F0001DC35D160034CB27 /* ZYDayView.h */,
 				65D2F0011DC35D160034CB27 /* ZYDayView.m */,
+				651DF13B1DC5F84900A9D7D9 /* ZYCalendarManager.h */,
+				651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */,
 			);
 			path = ZYCalendarView;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 				TargetAttributes = {
 					65D2EEC61DC2FCB40034CB27 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = NW8RX498T2;
+						DevelopmentTeam = HEWU778C2D;
 						ProvisioningStyle = Automatic;
 					};
 					65D2EEDF1DC2FCB40034CB27 = {
@@ -315,9 +315,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65D2EED21DC2FCB40034CB27 /* ViewController.m in Sources */,
+				651DF13D1DC5F84900A9D7D9 /* ZYCalendarManager.m in Sources */,
 				65D2EFFF1DC35D010034CB27 /* ZYWeekView.m in Sources */,
 				65D2EECF1DC2FCB40034CB27 /* AppDelegate.m in Sources */,
-				65D2EF031DC350190034CB27 /* ZYCalendarMonthView.m in Sources */,
 				65D2EFF91DC357110034CB27 /* JTDateHelper.m in Sources */,
 				65D2EECC1DC2FCB40034CB27 /* main.m in Sources */,
 				65D2EFFC1DC3576E0034CB27 /* ZYMonthView.m in Sources */,
@@ -469,8 +469,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NW8RX498T2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HEWU778C2D;
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = demo.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -481,8 +483,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NW8RX498T2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HEWU778C2D;
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = demo.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -558,6 +562,7 @@
 				65D2EEF61DC2FCB40034CB27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65D2EEF71DC2FCB40034CB27 /* Build configuration list for PBXNativeTarget "ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -566,6 +571,7 @@
 				65D2EEF91DC2FCB40034CB27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65D2EEFA1DC2FCB40034CB27 /* Build configuration list for PBXNativeTarget "ExampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -574,6 +580,7 @@
 				65D2EEFC1DC2FCB40034CB27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
