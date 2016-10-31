@@ -67,6 +67,22 @@
         else {
             self.backgroundColor = SelectedBgColor;
             [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            // 开始的是一个月的第一天
+            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedDay1.date]]) {
+                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedDay1.date]] && !self.enabled) {
+                    self.backgroundColor = [UIColor clearColor];
+                    [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
+                }
+            }
+            
+            // 结束是一个月最后一天
+            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedDay2.date]]) {
+                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedDay2.date]] && !self.enabled) {
+                    self.backgroundColor = [UIColor clearColor];
+                    [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
+                }
+            }
         }
     } else {
         self.backgroundColor = [UIColor clearColor];
