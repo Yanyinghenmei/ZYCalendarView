@@ -168,9 +168,33 @@
     return NO;
 }
 
+- (BOOL)date:(NSDate *)dateA isBefore:(NSDate *)dateB {
+    if([dateA compare:dateB] == NSOrderedAscending){
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)date:(NSDate *)dateA isAfter:(NSDate *)dateB {
+    if([dateA compare:dateB] == NSOrderedDescending){
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (BOOL)date:(NSDate *)date isEqualOrAfter:(NSDate *)startDate andEqualOrBefore:(NSDate *)endDate
 {
     if([self date:date isEqualOrAfter:startDate] && [self date:date isEqualOrBefore:endDate]){
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)date:(NSDate *)date isAfter:(NSDate *)startDate andBefore:(NSDate *)endDate {
+    if([self date:date isAfter:startDate] && [self date:date isBefore:endDate]){
         return YES;
     }
     

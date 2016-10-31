@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZYCalendarManager.h"
 
-@interface ZYDayView : UIView
+@interface ZYDayView : UIButton
 @property (nonatomic, strong)NSDate *date;
+@property (nonatomic, weak)ZYCalendarManager *manager;
 @end

@@ -18,15 +18,12 @@
     ZYMonthView *monthView3;
     ZYMonthView *monthView4;
     ZYMonthView *monthView5;
-    
-    JTDateHelper *helper;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-        helper = [JTDateHelper new];
     }
     return self;
 }
@@ -36,6 +33,18 @@
     [self resizeViewsIfWidthChanged];
     // 滚动
     [self viewDidScroll];
+}
+
+- (void)setDayViewBlock:(void (^)(id))dayViewBlock {
+    _dayViewBlock = dayViewBlock;
+    self.manager.dayViewBlock = _dayViewBlock;
+}
+
+- (ZYCalendarManager *)manager {
+    if (!_manager) {
+        _manager = [ZYCalendarManager new];
+    }
+    return _manager;
 }
 
 - (void)resizeViewsIfWidthChanged
@@ -66,17 +75,23 @@
     CGSize size = self.frame.size;
     
     if (!monthView1) {
-        monthView1 = [ZYMonthView new];
-        monthView2 = [ZYMonthView new];
-        monthView3 = [ZYMonthView new];
-        monthView4 = [ZYMonthView new];
-        monthView5 = [ZYMonthView new];
+        monthView1 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
+        monthView2 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
+        monthView3 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
+        monthView4 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
+        monthView5 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
         
-        monthView1.backgroundColor = [UIColor redColor];
-        monthView2.backgroundColor = [UIColor yellowColor];
-        monthView3.backgroundColor = [UIColor blueColor];
-        monthView4.backgroundColor = [UIColor grayColor];
-        monthView5.backgroundColor = [UIColor orangeColor];
+        monthView1.tag = 1;
+        monthView1.tag = 2;
+        monthView1.tag = 3;
+        monthView1.tag = 4;
+        monthView1.tag = 5;
+        
+        monthView1.manager = self.manager;
+        monthView2.manager = self.manager;
+        monthView3.manager = self.manager;
+        monthView4.manager = self.manager;
+        monthView5.manager = self.manager;
         
         [self addSubview:monthView1];
         [self addSubview:monthView2];
@@ -103,12 +118,10 @@
     if(self.contentOffset.y < monthView1.frame.size.height + monthView2.frame.size.height/2.0){
         // 加载上一页(如果是当前日期的上一个月, 不加载)
         [self loadPreviousPage];
-        NSLog(@"上一页");
     }
     else if(self.contentOffset.y > monthView1.frame.size.height+monthView2.frame.size.height+monthView3.frame.size.height/2.0){
         // 加载下一页
         [self loadNextPage];
-        NSLog(@"下一页");
     }
 }
 
@@ -123,7 +136,7 @@
     
     monthView1 = tmpView;
     
-    monthView1.date = [helper addToDate:monthView2.date months:-1];
+    monthView1.date = [self.manager.helper addToDate:monthView2.date months:-1];
     
     [self resetMonthViewsFrame];
     
@@ -142,7 +155,7 @@
     monthView4 = monthView5;
     
     monthView5 = tmpView;
-    monthView5.date = [helper addToDate:monthView4.date months:1];
+    monthView5.date = [self.manager.helper addToDate:monthView4.date months:1];
     
     [self resetMonthViewsFrame];
     
@@ -163,11 +176,13 @@
 - (void)setDate:(NSDate *)date {
     _date = date;
     
-    monthView1.date = [helper addToDate:date months:-2];
-    monthView2.date = [helper addToDate:date months:-1];
+    monthView1.date = [self.manager.helper addToDate:date months:-2];
+    monthView2.date = [self.manager.helper addToDate:date months:-1];
     monthView3.date = date;
-    monthView4.date = [helper addToDate:date months:1];
-    monthView5.date = [helper addToDate:date months:2];
+    monthView4.date = [self.manager.helper addToDate:date months:1];
+    monthView5.date = [self.manager.helper addToDate:date months:2];
 }
+
+
 
 @end

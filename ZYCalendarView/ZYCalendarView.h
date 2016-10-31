@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZYCalendarManager.h"
 
 @class ZYCalendarView;
 
 @interface ZYCalendarView : UIScrollView
 @property (nonatomic, strong)NSDate *date;
+@property (nonatomic, strong)ZYCalendarManager *manager;
+@property (nonatomic, copy)void(^dayViewBlock)(id);
+
 @end

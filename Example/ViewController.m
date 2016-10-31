@@ -10,6 +10,7 @@
 #import "ZYCalendarView.h"
 
 @interface ViewController ()
+@property (nonatomic, copy)NSMutableArray *dayDateArr;
 @end
 
 @implementation ViewController
@@ -18,14 +19,28 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    ZYCalendarView *view = [[ZYCalendarView alloc] initWithFrame:self.view.bounds];
+    UIView *weekTitlesView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+    [self.view addSubview:weekTitlesView];
+    CGFloat weekW = self.view.frame.size.width/7;
+    NSArray *titles = @[@"日", @"一", @"二", @"三",
+                        @"四", @"五", @"六"];
+    for (int i = 0; i < 7; i++) {
+        UILabel *week = [[UILabel alloc] initWithFrame:CGRectMake(i*weekW, 20, weekW, 44)];
+        week.textAlignment = NSTextAlignmentCenter;
+        week.textColor = ZYHEXCOLOR(0x666666);
+        
+        [weekTitlesView addSubview:week];
+        week.text = titles[i];
+    }
+    
+    
+    ZYCalendarView *view = [[ZYCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
     view.date = [NSDate date];
+    
+    view.dayViewBlock = ^(NSDate *dayDate) {
+        NSLog(@"%@", dayDate);
+    };
     [self.view addSubview:view];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

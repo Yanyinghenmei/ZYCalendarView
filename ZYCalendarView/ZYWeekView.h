@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZYCalendarManager.h"
 
 @interface ZYWeekView : UIView
-
+@property (nonatomic, strong) NSDate *theMonthFirstDay;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, weak)ZYCalendarManager *manager;
 
 @end
