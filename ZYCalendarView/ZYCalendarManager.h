@@ -34,6 +34,4 @@ alpha:1.0]
 
 @property (nonatomic, copy)void(^dayViewBlock)(id);
 
-@property (nonatomic, strong)NSMutableArray *selectDateArr;
-
 @end

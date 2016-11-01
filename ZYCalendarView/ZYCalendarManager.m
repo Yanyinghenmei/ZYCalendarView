@@ -41,11 +41,4 @@
     return _dateFormatter;
 }
 
-- (NSMutableArray *)selectDateArr {
-    if (!_selectDateArr) {
-        _selectDateArr = [NSMutableArray new];
-    }
-    return _selectDateArr;
-}
-
 @end

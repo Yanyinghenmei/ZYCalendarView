@@ -10,7 +10,6 @@
 #import "ZYCalendarView.h"
 
 @interface ViewController ()
-@property (nonatomic, copy)NSMutableArray *dayDateArr;
 @end
 
 @implementation ViewController

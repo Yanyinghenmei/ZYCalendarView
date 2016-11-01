@@ -41,6 +41,7 @@
     // 有几周
     if (_weeksViews.count) {
         [_weeksViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [_weeksViews removeAllObjects];
     }
     
     NSDate *firstDay = [_manager.helper firstDayOfMonth:_date];
