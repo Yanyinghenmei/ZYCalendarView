@@ -29,9 +29,17 @@ alpha:1.0]
 @property (nonatomic, strong)NSDateFormatter *dayDateFormatter;
 @property (nonatomic, strong)NSDateFormatter *dateFormatter;
 
-@property (nonatomic, strong)ZYDayView *selectedDay1;
-@property (nonatomic, strong)ZYDayView *selectedDay2;
+// 选中的按钮(开始和结束)
+@property (nonatomic, strong)ZYDayView *selectedStartDay;
+@property (nonatomic, strong)ZYDayView *selectedEndDay;
 
+// 是否可以选择时间段
+@property (nonatomic, assign)BOOL canSelectFewDays;
+
+// 之前的时间是否可以被点击选择
+@property (nonatomic, assign)BOOL canSelectPastDays;
+
+// dayView点击回调
 @property (nonatomic, copy)void(^dayViewBlock)(id);
 
 @end

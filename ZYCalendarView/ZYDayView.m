@@ -19,7 +19,7 @@
         
         [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self setTitleColor:[UIColor clearColor] forState:UIControlStateDisabled];
+        [self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [self setImage:[UIImage imageNamed:@"circle"] forState:UIControlStateSelected];
         [self setImage:nil forState:UIControlStateNormal];
         
@@ -29,12 +29,12 @@
 }
 
 - (void)changeState {
-    if (_manager.selectedDay1 && _manager.selectedDay2) {
+    if (_manager.selectedStartDay && _manager.selectedEndDay) {
         
-        if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDay1.date]) {
+        if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
             [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
                             forState:UIControlStateSelected];
-        } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDay2.date]) {
+        } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
             [self setBackgroundImage:[UIImage imageNamed:@"backImg_end"]
                             forState:UIControlStateSelected];
         } else {
@@ -50,10 +50,10 @@
 }
 
 - (void)setSelectColor {
-    if ([_manager.helper date:_date isEqualOrAfter:_manager.selectedDay1.date andEqualOrBefore:_manager.selectedDay2.date]) {
+    if ([_manager.helper date:_date isEqualOrAfter:_manager.selectedStartDay.date andEqualOrBefore:_manager.selectedEndDay.date]) {
         
         // 同一个月
-        if ([_manager.helper date:_manager.selectedDay1.date isTheSameMonthThan:_manager.selectedDay2.date]) {
+        if ([_manager.helper date:_manager.selectedStartDay.date isTheSameMonthThan:_manager.selectedEndDay.date]) {
             if (self.enabled) {
                 self.backgroundColor = SelectedBgColor;
                 [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -69,16 +69,16 @@
             [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
             // 开始的是一个月的第一天
-            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedDay1.date]]) {
-                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedDay1.date]] && !self.enabled) {
+            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedStartDay.date]]) {
+                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedStartDay.date]] && !self.enabled) {
                     self.backgroundColor = [UIColor clearColor];
                     [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
                 }
             }
             
             // 结束是一个月最后一天
-            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedDay2.date]]) {
-                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedDay2.date]] && !self.enabled) {
+            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedEndDay.date]]) {
+                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedEndDay.date]] && !self.enabled) {
                     self.backgroundColor = [UIColor clearColor];
                     [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
                 }
@@ -95,27 +95,34 @@
     
     if (self.enabled) {
         
+        // 过去的时间能否点击
+        if (!_manager.canSelectPastDays &&
+            ![_manager.helper date:_date isTheSameDayThan:[NSDate date]] &&
+            [_date compare:[NSDate date]] == NSOrderedAscending) {
+            self.enabled = false;
+        }
+        
         [self setTitle:[_manager.dayDateFormatter stringFromDate:_date] forState:UIControlStateNormal];
         
-        if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDay1.date]) {
-            self.manager.selectedDay1.selected = false;
-            self.manager.selectedDay1 = self;
-            self.manager.selectedDay1.selected = true;
-        } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDay2.date]) {
-            self.manager.selectedDay2.selected = false;
-            self.manager.selectedDay2 = self;
-            self.manager.selectedDay2.selected = true;
+        if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
+            self.manager.selectedStartDay.selected = false;
+            self.manager.selectedStartDay = self;
+            self.manager.selectedStartDay.selected = true;
+        } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
+            self.manager.selectedEndDay.selected = false;
+            self.manager.selectedEndDay = self;
+            self.manager.selectedEndDay.selected = true;
         }
         
         if ([_manager.helper date:_date isTheSameDayThan:[NSDate date]] && self.enabled) {
             [self setImage:[UIImage imageNamed:@"circle_cir"] forState:UIControlStateNormal];
         }
         
-        if (_manager.selectedDay1 && _manager.selectedDay2) {
-            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDay1.date]) {
+        if (_manager.selectedStartDay && _manager.selectedEndDay) {
+            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
                 [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
                                 forState:UIControlStateSelected];
-            } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDay2.date]) {
+            } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
                 [self setBackgroundImage:[UIImage imageNamed:@"backImg_end"]
                                 forState:UIControlStateSelected];
             } else {
@@ -130,38 +137,45 @@
     [super touchesBegan:touches withEvent:event];
     [self setBackgroundImage:nil forState:UIControlStateSelected];
     
-    if (_manager.selectedDay1 && !_manager.selectedDay2) {
-        if (self == _manager.selectedDay1) {
-            return;
-        }
-        if ([_manager.helper date:_date isBefore:_manager.selectedDay1.date]) {
-            self.manager.selectedDay1.selected = false;
-            self.manager.selectedDay1 = self;
-            self.manager.selectedDay1.selected = true;
-        } else {
-            // 显示范围
-            self.manager.selectedDay2.selected = false;
-            self.manager.selectedDay2 = self;
-            self.manager.selectedDay2.selected = true;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
-        }
-    } else if (_manager.selectedDay1 && _manager.selectedDay2) {
-        self.manager.selectedDay1.selected = false;
-        self.manager.selectedDay2.selected = false;
-        
-        self.manager.selectedDay1 = self;
-        self.manager.selectedDay1.selected = true;
-        self.manager.selectedDay2 = nil;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
-    } else if (!_manager.selectedDay1 && !_manager.selectedDay2) {
-        self.manager.selectedDay1.selected = false;
-        self.manager.selectedDay1 = self;
-        self.manager.selectedDay1.selected = true;
-    }
-    
-    
     if (self.manager.dayViewBlock) {
         self.manager.dayViewBlock(_date);
+    }
+    
+    if (_manager.selectedStartDay && !_manager.selectedEndDay) {
+        if (self == _manager.selectedStartDay) {
+            return;
+        }
+        if ([_manager.helper date:_date isBefore:_manager.selectedStartDay.date]) {
+            self.manager.selectedStartDay.selected = false;
+            self.manager.selectedStartDay = self;
+            self.manager.selectedStartDay.selected = true;
+        } else {
+            
+            // 如果不能选择时间段
+            if (!_manager.canSelectFewDays) {
+                self.manager.selectedStartDay.selected = false;
+                self.manager.selectedStartDay = self;
+                self.manager.selectedStartDay.selected = true;
+            } else {
+                // 显示范围
+                self.manager.selectedEndDay.selected = false;
+                self.manager.selectedEndDay = self;
+                self.manager.selectedEndDay.selected = true;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
+            }
+        }
+    } else if (_manager.selectedStartDay && _manager.selectedEndDay) {
+        self.manager.selectedStartDay.selected = false;
+        self.manager.selectedEndDay.selected = false;
+        
+        self.manager.selectedStartDay = self;
+        self.manager.selectedStartDay.selected = true;
+        self.manager.selectedEndDay = nil;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
+    } else if (!_manager.selectedStartDay && !_manager.selectedEndDay) {
+        self.manager.selectedStartDay.selected = false;
+        self.manager.selectedStartDay = self;
+        self.manager.selectedStartDay.selected = true;
     }
 }
 
