@@ -131,6 +131,9 @@
     [self setBackgroundImage:nil forState:UIControlStateSelected];
     
     if (_manager.selectedDay1 && !_manager.selectedDay2) {
+        if (self == _manager.selectedDay1) {
+            return;
+        }
         if ([_manager.helper date:_date isBefore:_manager.selectedDay1.date]) {
             self.manager.selectedDay1.selected = false;
             self.manager.selectedDay1 = self;
