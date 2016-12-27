@@ -157,10 +157,6 @@
     [super touchesBegan:touches withEvent:event];
     [self setBackgroundImage:nil forState:UIControlStateSelected];
     
-    if (self.manager.dayViewBlock) {
-        self.manager.dayViewBlock(_date);
-    }
-    
     // 多选
     if (_manager.selectionType == ZYCalendarSelectionTypeMultiple) {
         self.selected = !self.selected;
@@ -212,6 +208,10 @@
             self.manager.selectedStartDay = self;
             self.manager.selectedStartDay.selected = true;
         }
+    }
+    
+    if (self.manager.dayViewBlock) {
+        self.manager.dayViewBlock(_date);
     }
 }
 
