@@ -97,27 +97,47 @@
         
         // 过去的时间能否点击
         if (!_manager.canSelectPastDays &&
-            ![_manager.helper date:_date isTheSameDayThan:[NSDate date]] &&
-            [_date compare:[NSDate date]] == NSOrderedAscending) {
+            ![_manager.helper date:_date isTheSameDayThan:_manager.date] &&
+            [_date compare:_manager.date] == NSOrderedAscending) {
             self.enabled = false;
         }
         
         [self setTitle:[_manager.dayDateFormatter stringFromDate:_date] forState:UIControlStateNormal];
         
-        if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
-            self.manager.selectedStartDay.selected = false;
-            self.manager.selectedStartDay = self;
-            self.manager.selectedStartDay.selected = true;
-        } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
-            self.manager.selectedEndDay.selected = false;
-            self.manager.selectedEndDay = self;
-            self.manager.selectedEndDay.selected = true;
-        }
-        
-        if ([_manager.helper date:_date isTheSameDayThan:[NSDate date]] && self.enabled) {
+        // 当前时间
+        if ([_manager.helper date:_date isTheSameDayThan:_manager.date] && self.enabled) {
             [self setImage:[UIImage imageNamed:@"circle_cir"] forState:UIControlStateNormal];
         }
         
+        // 多选状态设置
+        if (_manager.selectionType == ZYCalendarSelectionTypeMultiple) {
+            for (NSDate *date in _manager.selectedDateArray) {
+                self.selected = [_manager.helper date:_date isTheSameDayThan:date];
+                if (self.selected) {
+                    break;
+                }
+            }
+            return;
+        }
+        
+        // 开始
+        if (_manager.selectedStartDay) {
+            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
+                self.manager.selectedStartDay.selected = false;
+                self.manager.selectedStartDay = self;
+                self.manager.selectedStartDay.selected = true;
+            }
+        }
+        // 结束
+        if (_manager.selectedEndDay) {
+            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
+                self.manager.selectedEndDay.selected = false;
+                self.manager.selectedEndDay = self;
+                self.manager.selectedEndDay.selected = true;
+            }
+        }
+        
+        // 其他
         if (_manager.selectedStartDay && _manager.selectedEndDay) {
             if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
                 [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
@@ -130,7 +150,7 @@
             }
         }
     }
-    [self setSelectColor];
+//    [self setSelectColor];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -141,41 +161,57 @@
         self.manager.dayViewBlock(_date);
     }
     
-    if (_manager.selectedStartDay && !_manager.selectedEndDay) {
-        if (self == _manager.selectedStartDay) {
-            return;
-        }
-        if ([_manager.helper date:_date isBefore:_manager.selectedStartDay.date]) {
-            self.manager.selectedStartDay.selected = false;
-            self.manager.selectedStartDay = self;
-            self.manager.selectedStartDay.selected = true;
+    // 多选
+    if (_manager.selectionType == ZYCalendarSelectionTypeMultiple) {
+        self.selected = !self.selected;
+        if (self.selected) {
+            [_manager.selectedDateArray addObject:self.date];
         } else {
-            
-            // 如果不能选择时间段
-            if (!_manager.canSelectFewDays) {
+            [_manager.selectedDateArray enumerateObjectsUsingBlock:^(NSDate *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([_manager.helper date:_date isTheSameDayThan:obj]) {
+                    [_manager.selectedDateArray removeObjectAtIndex:idx];
+                }
+            }];
+        }
+    } else {
+        
+        
+        if (_manager.selectedStartDay && !_manager.selectedEndDay) {
+            if (self == _manager.selectedStartDay) {
+                return;
+            }
+            if ([_manager.helper date:_date isBefore:_manager.selectedStartDay.date]) {
                 self.manager.selectedStartDay.selected = false;
                 self.manager.selectedStartDay = self;
                 self.manager.selectedStartDay.selected = true;
             } else {
-                // 显示范围
-                self.manager.selectedEndDay.selected = false;
-                self.manager.selectedEndDay = self;
-                self.manager.selectedEndDay.selected = true;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
+                
+                // 如果不能选择时间段(单选)
+                if (_manager.selectionType == ZYCalendarSelectionTypeSingle) {
+                    self.manager.selectedStartDay.selected = false;
+                    self.manager.selectedStartDay = self;
+                    self.manager.selectedStartDay.selected = true;
+                } else {
+                    // 多选
+                    self.manager.selectedEndDay.selected = false;
+                    self.manager.selectedEndDay = self;
+                    self.manager.selectedEndDay.selected = true;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
+                }
             }
+        } else if (_manager.selectedStartDay && _manager.selectedEndDay) {
+            self.manager.selectedStartDay.selected = false;
+            self.manager.selectedEndDay.selected = false;
+            
+            self.manager.selectedStartDay = self;
+            self.manager.selectedStartDay.selected = true;
+            self.manager.selectedEndDay = nil;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
+        } else if (!_manager.selectedStartDay && !_manager.selectedEndDay) {
+            self.manager.selectedStartDay.selected = false;
+            self.manager.selectedStartDay = self;
+            self.manager.selectedStartDay.selected = true;
         }
-    } else if (_manager.selectedStartDay && _manager.selectedEndDay) {
-        self.manager.selectedStartDay.selected = false;
-        self.manager.selectedEndDay.selected = false;
-        
-        self.manager.selectedStartDay = self;
-        self.manager.selectedStartDay.selected = true;
-        self.manager.selectedEndDay = nil;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
-    } else if (!_manager.selectedStartDay && !_manager.selectedEndDay) {
-        self.manager.selectedStartDay.selected = false;
-        self.manager.selectedStartDay = self;
-        self.manager.selectedStartDay.selected = true;
     }
 }
 

@@ -17,6 +17,13 @@
     return _helper;
 }
 
+- (NSMutableArray *)selectedDateArray {
+    if (!_selectedDateArray) {
+        _selectedDateArray = @[].mutableCopy;
+    }
+    return _selectedDateArray;
+}
+
 - (NSDateFormatter *)titleDateFormatter {
     if (!_titleDateFormatter) {
         _titleDateFormatter = [self.helper createDateFormatter];

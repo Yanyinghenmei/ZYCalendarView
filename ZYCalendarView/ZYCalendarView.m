@@ -175,6 +175,7 @@
 
 - (void)setDate:(NSDate *)date {
     _date = date;
+    _manager.date = date;
     
     monthView1.date = [self.manager.helper addToDate:date months:-2];
     monthView2.date = [self.manager.helper addToDate:date months:-1];
