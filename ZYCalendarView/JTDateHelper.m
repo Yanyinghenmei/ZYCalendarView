@@ -128,6 +128,9 @@
 
 - (BOOL)date:(NSDate *)dateA isTheSameMonthThan:(NSDate *)dateB
 {
+    if (!dateA || !dateB) {
+        return false;
+    }
     NSDateComponents *componentsA = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:dateA];
     NSDateComponents *componentsB = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:dateB];
 
@@ -136,6 +139,9 @@
 
 - (BOOL)date:(NSDate *)dateA isTheSameWeekThan:(NSDate *)dateB
 {
+    if (!dateA || !dateB) {
+        return false;
+    }
     NSDateComponents *componentsA = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitWeekOfYear fromDate:dateA];
     NSDateComponents *componentsB = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitWeekOfYear fromDate:dateB];
     
@@ -144,6 +150,9 @@
 
 - (BOOL)date:(NSDate *)dateA isTheSameDayThan:(NSDate *)dateB
 {
+    if (!dateA || !dateB) {
+        return false;
+    }
     NSDateComponents *componentsA = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:dateA];
     NSDateComponents *componentsB = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:dateB];
     
