@@ -11,7 +11,7 @@ Reference JTCalendar, imitate Airbnb's calendar
     // 不可以点击已经过去的日期
     view.manager.canSelectPastDays = false;
     // 可以选择时间段
-    view.manager.canSelectFewDays = true;
+    view.manager.selectionType = ZYCalendarSelectionTypeRange;
     // 设置当前日期
     view.date = [NSDate date];
     
