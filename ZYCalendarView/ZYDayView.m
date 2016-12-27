@@ -150,7 +150,7 @@
             }
         }
     }
-//    [self setSelectColor];
+    [self setSelectColor];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
