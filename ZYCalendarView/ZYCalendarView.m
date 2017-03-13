@@ -35,7 +35,7 @@
     [self viewDidScroll];
 }
 
-- (void)setDayViewBlock:(void (^)(id))dayViewBlock {
+- (void)setDayViewBlock:(void (^)(ZYCalendarManager *manager,id))dayViewBlock {
     _dayViewBlock = dayViewBlock;
     self.manager.dayViewBlock = _dayViewBlock;
 }

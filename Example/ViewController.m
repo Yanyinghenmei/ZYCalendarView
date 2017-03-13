@@ -42,8 +42,12 @@
     // 设置当前日期
     view.date = [NSDate date];
     
-    view.dayViewBlock = ^(NSDate *dayDate) {
-        NSLog(@"%@", dayDate);
+    view.dayViewBlock = ^(ZYCalendarManager *manager, NSDate *dayDate) {
+        // NSLog(@"%@", dayDate);
+        for (NSDate *date in manager.selectedDateArray) {
+            NSLog(@"%@", [manager.dateFormatter stringFromDate:date]);
+        }
+        printf("\n");
     };
     [self.view addSubview:view];
 }

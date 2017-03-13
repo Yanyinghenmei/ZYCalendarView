@@ -51,6 +51,6 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
 @property (nonatomic, assign)BOOL canSelectPastDays;
 
 // dayView点击回调
-@property (nonatomic, copy)void(^dayViewBlock)(id);
+@property (nonatomic, copy)void(^dayViewBlock)(ZYCalendarManager *manager,id);
 
 @end

@@ -211,7 +211,7 @@
     }
     
     if (self.manager.dayViewBlock) {
-        self.manager.dayViewBlock(_date);
+        self.manager.dayViewBlock(_manager, _date);
     }
 }
 
