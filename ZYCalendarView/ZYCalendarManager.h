@@ -33,6 +33,9 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
 @property (nonatomic, strong)NSDateFormatter *titleDateFormatter;
 @property (nonatomic, strong)NSDateFormatter *dayDateFormatter;
 @property (nonatomic, strong)NSDateFormatter *dateFormatter;
+@property (nonatomic, assign)CGFloat dayViewGap;
+@property (nonatomic, assign)CGFloat dayViewWidth;
+@property (nonatomic, assign)CGFloat dayViewHeight;
 
 // 保存创建日历时的时间
 @property (nonatomic, strong)NSDate *date;

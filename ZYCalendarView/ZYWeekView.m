@@ -10,20 +10,7 @@
 #import "ZYDayView.h"
 #import "JTDateHelper.h"
 
-@implementation ZYWeekView {
-    CGFloat dayViewWidth;
-    CGFloat dayViewHeight;
-    CGFloat gap;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        gap = 5;
-        dayViewWidth = frame.size.width/7;
-        dayViewHeight = (frame.size.width-gap*8)/7;
-    }
-    return self;
-}
+@implementation ZYWeekView
 
 - (void)setDate:(NSDate *)date {
     _date = date;
@@ -31,7 +18,7 @@
     NSDate *firstDate = [_manager.helper firstWeekDayOfWeek:_date];
     
     for (int i = 0; i < 7; i++) {
-        ZYDayView *dayView = [[ZYDayView alloc] initWithFrame:CGRectMake(dayViewWidth * i, 0, dayViewWidth, dayViewHeight)];
+        ZYDayView *dayView = [[ZYDayView alloc] initWithFrame:CGRectMake(_manager.dayViewWidth * i, 0, _manager.dayViewWidth, _manager.dayViewHeight)];
         dayView.manager = self.manager;
         
         NSDate *dayDate = [_manager.helper addToDate:firstDate days:i];

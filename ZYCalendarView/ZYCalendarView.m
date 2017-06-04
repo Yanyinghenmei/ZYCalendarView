@@ -24,6 +24,7 @@
     if (self = [super initWithFrame:frame]) {
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+        [self manager];
     }
     return self;
 }
@@ -43,6 +44,9 @@
 - (ZYCalendarManager *)manager {
     if (!_manager) {
         _manager = [ZYCalendarManager new];
+        _manager.dayViewGap = 5;
+        _manager.dayViewWidth = self.frame.size.width/7;
+        _manager.dayViewHeight = (self.frame.size.width-_manager.dayViewGap*8)/7;
     }
     return _manager;
 }
@@ -109,11 +113,11 @@
         return;
     }
     
-    if(self.contentOffset.y < monthView1.frame.size.height + monthView2.frame.size.height/2.0){
+    if(self.contentOffset.y < monthView1.frame.size.height + monthView2.frame.size.height/2.00){
         // 加载上一页(如果是当前日期的上一个月, 不加载)
         [self loadPreviousPage];
     }
-    else if(self.contentOffset.y > monthView1.frame.size.height+monthView2.frame.size.height+monthView3.frame.size.height/2.0){
+    else if(self.contentOffset.y > monthView1.frame.size.height+monthView2.frame.size.height+monthView3.frame.size.height/2.00){
         // 加载下一页
         [self loadNextPage];
     }
