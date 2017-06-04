@@ -16,7 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    UIImageView *backgroundImgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:backgroundImgView];
+    backgroundImgView.image = [UIImage imageNamed:@"background"];
     
     UIView *weekTitlesView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
     [self.view addSubview:weekTitlesView];
@@ -44,8 +46,8 @@
     
     view.dayViewBlock = ^(ZYCalendarManager *manager, NSDate *dayDate) {
         // NSLog(@"%@", dayDate);
-        for (NSDate *date in manager.selectedDateArray) {
-            NSLog(@"%@", [manager.dateFormatter stringFromDate:date]);
+        for (ZYDayView *dayView in manager.selectedDateArray) {
+            NSLog(@"%@", [manager.dateFormatter stringFromDate:dayView.date]);
         }
         printf("\n");
     };

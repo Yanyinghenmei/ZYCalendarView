@@ -81,12 +81,6 @@
         monthView4 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
         monthView5 = [[ZYMonthView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
         
-        monthView1.tag = 1;
-        monthView1.tag = 2;
-        monthView1.tag = 3;
-        monthView1.tag = 4;
-        monthView1.tag = 5;
-        
         monthView1.manager = self.manager;
         monthView2.manager = self.manager;
         monthView3.manager = self.manager;
@@ -158,7 +152,6 @@
     monthView5.date = [self.manager.helper addToDate:monthView4.date months:1];
     
     [self resetMonthViewsFrame];
-    
     self.contentOffset = CGPointMake(0, self.contentOffset.y - height1);
 }
 

@@ -7,8 +7,8 @@
 //
 
 #import "ZYDayView.h"
-#import "JTDateHelper.h"
 #import "ZYMonthView.h"
+#import "ZYCalendarManager.h"
 
 @implementation ZYDayView
 
@@ -23,37 +23,41 @@
         [self setImage:[UIImage imageNamed:@"circle"] forState:UIControlStateSelected];
         [self setImage:nil forState:UIControlStateNormal];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeState) name:@"changeState" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeRangeState) name:@"changeRangeState" object:nil];
     }
     return self;
 }
 
-- (void)changeState {
-    if (_manager.selectedStartDay && _manager.selectedEndDay) {
-        
-        if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
-            [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
-                            forState:UIControlStateSelected];
-        } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
-            [self setBackgroundImage:[UIImage imageNamed:@"backImg_end"]
-                            forState:UIControlStateSelected];
+- (void)changeRangeState {
+    if (_manager.selectionType == ZYCalendarSelectionTypeRange) {
+        if (_manager.selectedDateArray.count == 2) {
+            
+            if ([_manager.helper date:_date
+                     isTheSameDayThan:_manager.selectedDateArray[0].date]) {
+                [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
+                                forState:UIControlStateSelected];
+            } else if ([_manager.helper date:_date
+                            isTheSameDayThan:_manager.selectedDateArray[1].date]) {
+                [self setBackgroundImage:[UIImage imageNamed:@"backImg_end"]
+                                forState:UIControlStateSelected];
+            } else {
+                [self setBackgroundImage:nil forState:UIControlStateNormal];
+            }
+            
+            [self setSelectColor];
         } else {
-            [self setBackgroundImage:nil forState:UIControlStateNormal];
+            self.backgroundColor = [UIColor clearColor];
+            [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
         }
-        
-        [self setSelectColor];
-        
-    } else {
-        self.backgroundColor = [UIColor clearColor];
-        [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
     }
 }
 
 - (void)setSelectColor {
-    if ([_manager.helper date:_date isEqualOrAfter:_manager.selectedStartDay.date andEqualOrBefore:_manager.selectedEndDay.date]) {
-        
-        // 同一个月
-        if ([_manager.helper date:_manager.selectedStartDay.date isTheSameMonthThan:_manager.selectedEndDay.date]) {
+    
+    if (_manager.selectedDateArray.count == 2 && _manager.selectionType == ZYCalendarSelectionTypeRange) {
+        // 在开始和结束之间, 不包含首尾
+        if ([_manager.helper date:_date isAfter:_manager.selectedDateArray[0].date andBefore:_manager.selectedDateArray[1].date]) {
+            
             if (self.enabled) {
                 self.backgroundColor = SelectedBgColor;
                 [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -61,32 +65,40 @@
                 self.backgroundColor = [UIColor clearColor];
                 [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
             }
+            // 同一个月
+            if ([_manager.helper date:_manager.selectedDateArray[0].date isTheSameMonthThan:_manager.selectedDateArray[1].date]) {
+            }
+            
+            // 不同
+            else {
+                self.backgroundColor = SelectedBgColor;
+                [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
         }
         
-        // 不同
-        else {
+        // 和开始日期相同(一个monthView中属于上个月的DayView没有title, 但是date和本月第一天相同)
+        else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[0].date] && !self.enabled) {
             self.backgroundColor = SelectedBgColor;
-            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
             // 开始的是一个月的第一天
-            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedStartDay.date]]) {
-                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedStartDay.date]] && !self.enabled) {
-                    self.backgroundColor = [UIColor clearColor];
-                    [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
-                }
+            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper firstDayOfMonth:_manager.selectedDateArray[0].date]] && !self.enabled) {
+                self.backgroundColor = [UIColor clearColor];
+                [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
             }
             
-            // 结束是一个月最后一天
-            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedEndDay.date]]) {
-                if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedEndDay.date]] && !self.enabled) {
-                    self.backgroundColor = [UIColor clearColor];
-                    [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
-                }
-            }
         }
-    } else {
-        self.backgroundColor = [UIColor clearColor];
-        [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
+        
+        // 和结束日期相同(一个monthView中属于下个月的DayView没有title, 但是date和本月最后一天相同)
+        else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[1].date] && !self.enabled) {
+            self.backgroundColor = SelectedBgColor;
+            
+            // 结束是一个月最后一天
+            if ([_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedDateArray[1].date]] && !self.enabled) {
+                self.backgroundColor = [UIColor clearColor];
+                [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
+            }
+            
+        }
     }
 }
 
@@ -111,8 +123,8 @@
         
         // 多选状态设置
         if (_manager.selectionType == ZYCalendarSelectionTypeMultiple) {
-            for (NSDate *date in _manager.selectedDateArray) {
-                self.selected = [_manager.helper date:_date isTheSameDayThan:date];
+            for (ZYDayView *dayView in _manager.selectedDateArray) {
+                self.selected = [_manager.helper date:_date isTheSameDayThan:dayView.date];
                 if (self.selected) {
                     break;
                 }
@@ -121,28 +133,25 @@
         }
         
         // 开始
-        if (_manager.selectedStartDay) {
-            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
-                self.manager.selectedStartDay.selected = false;
-                self.manager.selectedStartDay = self;
-                self.manager.selectedStartDay.selected = true;
-            }
-        }
-        // 结束
-        if (_manager.selectedEndDay) {
-            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
-                self.manager.selectedEndDay.selected = false;
-                self.manager.selectedEndDay = self;
-                self.manager.selectedEndDay.selected = true;
+        if (_manager.selectedDateArray.count >= 1) {
+            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[0].date]) {
+                self.manager.selectedDateArray.firstObject.selected = false;
+                [self.manager.selectedDateArray replaceObjectAtIndex:0 withObject:self];
+                self.manager.selectedDateArray.firstObject.selected = true;
             }
         }
         
-        // 其他
-        if (_manager.selectedStartDay && _manager.selectedEndDay) {
-            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedStartDay.date]) {
+        if (_manager.selectedDateArray.count == 2) {
+            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[1].date]) {
+                self.manager.selectedDateArray[1].selected = false;
+                [self.manager.selectedDateArray replaceObjectAtIndex:1 withObject:self];
+                self.manager.selectedDateArray[1].selected = true;
+            }
+            
+            if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[0].date]) {
                 [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
                                 forState:UIControlStateSelected];
-            } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedEndDay.date]) {
+            } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[1].date]) {
                 [self setBackgroundImage:[UIImage imageNamed:@"backImg_end"]
                                 forState:UIControlStateSelected];
             } else {
@@ -161,52 +170,55 @@
     if (_manager.selectionType == ZYCalendarSelectionTypeMultiple) {
         self.selected = !self.selected;
         if (self.selected) {
-            [_manager.selectedDateArray addObject:self.date];
+            [_manager.selectedDateArray addObject:self];
         } else {
-            [_manager.selectedDateArray enumerateObjectsUsingBlock:^(NSDate *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([_manager.helper date:_date isTheSameDayThan:obj]) {
+            [_manager.selectedDateArray enumerateObjectsUsingBlock:^(ZYDayView *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([_manager.helper date:_date isTheSameDayThan:obj.date]) {
                     [_manager.selectedDateArray removeObjectAtIndex:idx];
                 }
             }];
         }
-    } else {
-        
-        
-        if (_manager.selectedStartDay && !_manager.selectedEndDay) {
-            if (self == _manager.selectedStartDay) {
+    }
+    
+    // 单选
+    else if (_manager.selectionType == ZYCalendarSelectionTypeSingle) {
+        if (self.manager.selectedDateArray.count) {
+            [self.manager.selectedDateArray enumerateObjectsUsingBlock:^(ZYDayView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                obj.selected = false;
+            }];
+            [self.manager.selectedDateArray removeAllObjects];
+        }
+        [self.manager.selectedDateArray addObject:self];
+        self.manager.selectedDateArray.firstObject.selected = true;
+    }
+    
+    // 范围选择
+    else {
+        if (_manager.selectedDateArray.count == 0) {
+            [_manager.selectedDateArray addObject:self];
+            _manager.selectedDateArray.firstObject.selected = true;
+        } else if (_manager.selectedDateArray.count == 1) {
+            if (_date == _manager.selectedDateArray.firstObject.date) {
                 return;
             }
-            if ([_manager.helper date:_date isBefore:_manager.selectedStartDay.date]) {
-                self.manager.selectedStartDay.selected = false;
-                self.manager.selectedStartDay = self;
-                self.manager.selectedStartDay.selected = true;
+            if ([_manager.helper date:_date isBefore:_manager.selectedDateArray.firstObject.date]) {
+                self.manager.selectedDateArray.firstObject.selected = false;
+                [self.manager.selectedDateArray replaceObjectAtIndex:0 withObject:self];
+                self.manager.selectedDateArray.firstObject.selected = true;
             } else {
-                
-                // 如果不能选择时间段(单选)
-                if (_manager.selectionType == ZYCalendarSelectionTypeSingle) {
-                    self.manager.selectedStartDay.selected = false;
-                    self.manager.selectedStartDay = self;
-                    self.manager.selectedStartDay.selected = true;
-                } else {
-                    // 多选
-                    self.manager.selectedEndDay.selected = false;
-                    self.manager.selectedEndDay = self;
-                    self.manager.selectedEndDay.selected = true;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
-                }
+                self.manager.selectedDateArray[0].selected = true;
+                [self.manager.selectedDateArray addObject:self];
+                self.manager.selectedDateArray[1].selected = true;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeRangeState" object:nil];
             }
-        } else if (_manager.selectedStartDay && _manager.selectedEndDay) {
-            self.manager.selectedStartDay.selected = false;
-            self.manager.selectedEndDay.selected = false;
+        } else if (_manager.selectedDateArray.count == 2) {
+            self.manager.selectedDateArray[0].selected = false;
+            self.manager.selectedDateArray[1].selected = false;
             
-            self.manager.selectedStartDay = self;
-            self.manager.selectedStartDay.selected = true;
-            self.manager.selectedEndDay = nil;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeState" object:nil];
-        } else if (!_manager.selectedStartDay && !_manager.selectedEndDay) {
-            self.manager.selectedStartDay.selected = false;
-            self.manager.selectedStartDay = self;
-            self.manager.selectedStartDay.selected = true;
+            [self.manager.selectedDateArray removeAllObjects];
+            [self.manager.selectedDateArray addObject:self];
+            self.manager.selectedDateArray.firstObject.selected = true;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeRangeState" object:nil];
         }
     }
     

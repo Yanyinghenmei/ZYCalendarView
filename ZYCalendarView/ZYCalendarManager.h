@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JTDateHelper.h"
+#import "ZYDayView.h"
 
 #define ZYHEXCOLOR(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
@@ -27,8 +28,6 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
     ZYCalendarSelectionTypeRange = 2            // 范围选择
 };
 
-@class ZYDayView;
-
 @interface ZYCalendarManager : NSObject
 @property (nonatomic, strong)JTDateHelper *helper;
 @property (nonatomic, strong)NSDateFormatter *titleDateFormatter;
@@ -38,11 +37,8 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
 // 保存创建日历时的时间
 @property (nonatomic, strong)NSDate *date;
 
-// 选中的按钮(开始和结束)
-@property (nonatomic, strong)ZYDayView *selectedStartDay;
-@property (nonatomic, strong)ZYDayView *selectedEndDay;
 // 多选模式中保存选中的时间
-@property (nonatomic, strong)NSMutableArray *selectedDateArray;
+@property (nonatomic, strong)NSMutableArray <ZYDayView *>*selectedDateArray;
 
 // 选择模式 默认单选
 @property (nonatomic, assign)ZYCalendarSelectionType selectionType;

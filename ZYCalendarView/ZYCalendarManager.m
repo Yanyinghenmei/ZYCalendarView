@@ -54,32 +54,4 @@
 // 范围选择: 'selectedDateArray' 保存两个 date, 一个开始一个结束
 // 多选: 由于多选的结果和 'selectedStartDay'及'selectedEndDay' 没有关系, 所以不再这里操作 'selectedDateArray'
 
-- (void)setSelectedStartDay:(ZYDayView *)selectedStartDay {
-    _selectedStartDay = selectedStartDay;
-    
-    if (_selectionType != ZYCalendarSelectionTypeMultiple) {
-        if (self.selectedDateArray.count) {
-            [self.selectedDateArray replaceObjectAtIndex:0 withObject:selectedStartDay.date];
-        } else {
-            [self .selectedDateArray addObject:selectedStartDay.date];
-        }
-    }
-}
-
-- (void)setSelectedEndDay:(ZYDayView *)selectedEndDay {
-    _selectedEndDay = selectedEndDay;
-    
-    if (_selectionType == ZYCalendarSelectionTypeRange) {
-        if (self.selectedDateArray.count == 2) {
-            if (selectedEndDay) {
-                [self.selectedDateArray replaceObjectAtIndex:1 withObject:selectedEndDay.date];
-            } else {
-                [self.selectedDateArray removeObjectAtIndex:1];
-            }
-        } else {
-            [self.selectedDateArray addObject:selectedEndDay.date];
-        }
-    }
-}
-
 @end

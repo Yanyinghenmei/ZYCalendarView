@@ -40,8 +40,10 @@
         if (!isSameMonth) {
             
             if ([_manager.helper date:dayDate isAfter:[_manager.helper lastDayOfMonth:_theMonthFirstDay]]) {
+                // 一个monthView中属于上个月的DayView没有title, 但是date和本月第一天相同
                 dayDate = [_manager.helper lastDayOfMonth:_theMonthFirstDay];
             } else if ([_manager.helper date:dayDate isBefore:_theMonthFirstDay]) {
+                // 一个monthView中属于下个月的DayView没有title, 但是date和本月最后一天相同
                 dayDate = _theMonthFirstDay;
             }
         }
