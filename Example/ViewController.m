@@ -46,8 +46,8 @@
     
     view.dayViewBlock = ^(ZYCalendarManager *manager, NSDate *dayDate) {
         // NSLog(@"%@", dayDate);
-        for (ZYDayView *dayView in manager.selectedDateArray) {
-            NSLog(@"%@", [manager.dateFormatter stringFromDate:dayView.date]);
+        for (NSDate *date in manager.selectedDateArray) {
+            NSLog(@"%@", [manager.dateFormatter stringFromDate:date]);
         }
         printf("\n");
     };

@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
     ZYCalendarSelectionTypeMultiple = 1,        // 多选
     ZYCalendarSelectionTypeRange = 2            // 范围选择
 };
+static NSString *Identifier = @"DayView";
 
 @interface ZYCalendarManager : NSObject
 @property (nonatomic, strong)JTDateHelper *helper;
@@ -41,7 +42,7 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
 @property (nonatomic, strong)NSDate *date;
 
 // 多选模式中保存选中的时间
-@property (nonatomic, strong)NSMutableArray <ZYDayView *>*selectedDateArray;
+@property (nonatomic, strong)NSMutableArray <NSDate *>*selectedDateArray;
 
 // 选择模式 默认单选
 @property (nonatomic, assign)ZYCalendarSelectionType selectionType;
@@ -51,5 +52,10 @@ typedef NS_ENUM(NSInteger, ZYCalendarSelectionType) {
 
 // dayView点击回调
 @property (nonatomic, copy)void(^dayViewBlock)(ZYCalendarManager *manager,id);
+
+
+- (void)addToReusePoolWithViews:(NSArray <UIView *>*)array identifier:(NSString *)identifier;
+- (ZYDayView *)dequeueReusableDayViewWithIdentifier:(NSString *)identifier;
+- (void)registerDayViewWithReuseIdentifier:(NSString *)identifier;
 
 @end
