@@ -48,7 +48,7 @@
         _manager.dayViewWidth = self.frame.size.width/7;
         _manager.dayViewHeight = (self.frame.size.width-_manager.dayViewGap*8)/7;
         
-        [_manager registerDayViewWithReuseIdentifier:Identifier];
+        [_manager registerWeekViewWithReuseIdentifier:Identifier];
     }
     return _manager;
 }

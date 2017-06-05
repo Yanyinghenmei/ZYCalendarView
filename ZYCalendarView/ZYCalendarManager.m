@@ -7,8 +7,7 @@
 //
 
 #import "ZYCalendarManager.h"
-#import "ZYDayView.h"
-#import <objc/runtime.h>
+#import "ZYWeekView.h"
 
 @interface ZYCalendarManager ()
 @property (nonatomic, copy)NSMutableArray *reusePool;
@@ -17,26 +16,26 @@
 
 @implementation ZYCalendarManager
 
-- (void)registerDayViewWithReuseIdentifier:(NSString *)identifier {
+- (void)registerWeekViewWithReuseIdentifier:(NSString *)identifier {
     !identifier ?: [self.reusePoolDictionary setObject:@[].mutableCopy forKey:identifier];
 }
 
-- (void)addToReusePoolWithViews:(NSArray <UIView *>*)array identifier:(NSString *)identifier {
+- (void)addToReusePoolWithView:(UIView *)view identifier:(NSString *)identifier {
     NSMutableArray *reusePool = self.reusePoolDictionary[identifier];
     if (!reusePool) {
         NSLog(@"没有注册此标记: %@", identifier);
         return;
     }
-    [reusePool addObjectsFromArray:array];
+    [reusePool addObject:view];
 }
 
-- (ZYDayView *)dequeueReusableDayViewWithIdentifier:(NSString *)identifier {
+- (ZYWeekView *)dequeueReusableWeekViewWithIdentifier:(NSString *)identifier {
     NSMutableArray *reusePool = self.reusePoolDictionary[identifier];
     if (!reusePool) {
         NSLog(@"没有注册此标记: %@", identifier);
         return nil;
     }
-    ZYDayView *view = reusePool.firstObject;
+    ZYWeekView *view = reusePool.firstObject;
     if (view) {
         [reusePool removeObject:view];
         return view;

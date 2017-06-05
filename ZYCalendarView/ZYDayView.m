@@ -36,28 +36,10 @@
 - (void)setDate:(NSDate *)date {
     _date = date;
     
-    // 当前时间
-    if ([_manager.helper date:_date isTheSameDayThan:_manager.date] && self.enabled) {
-        [self setImage:[UIImage imageNamed:@"circle_cir"] forState:UIControlStateNormal];
-    } else {
-        [self setImage:nil forState:UIControlStateNormal];
-    }
     // 重置状态设置
     self.backgroundColor = [UIColor clearColor];
     
-    if (_isEmpty) {
-        self.selected = false;
-        self.enabled = false;
-        [self setTitle:@"" forState:UIControlStateNormal];
-    } else {
-        self.enabled = true;
-        [self setTitle:[_manager.dayDateFormatter stringFromDate:_date] forState:UIControlStateNormal];
-        
-    }
-    
-    if (_manager.selectedDateArray.count) {
-        [self changeState];
-    }
+    [self changeState];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -121,7 +103,12 @@
 
 // 修改颜色状态
 - (void)changeState {
+    
     if (_isEmpty) {
+        
+        self.selected = false;
+        self.enabled = false;
+        [self setTitle:@"" forState:UIControlStateNormal];
         
         // 多选模式需要对空的dayView背景色进行操作
         if (_manager.selectionType == ZYCalendarSelectionTypeRange &&
@@ -154,11 +141,24 @@
     // 非空dayView的状态
     else {
         
+        self.enabled = true;
+        [self setTitle:[_manager.dayDateFormatter stringFromDate:_date] forState:UIControlStateNormal];
+        
+        
+        // 当前时间
+        if ([_manager.helper date:_date isTheSameDayThan:_manager.date] && self.enabled) {
+            [self setImage:[UIImage imageNamed:@"circle_cir"] forState:UIControlStateNormal];
+        } else {
+            [self setImage:nil forState:UIControlStateNormal];
+        }
+        
         // 过去的时间能否点击
         if (!_manager.canSelectPastDays &&
             ![_manager.helper date:_date isTheSameDayThan:_manager.date] &&
             [_date compare:_manager.date] == NSOrderedAscending) {
             self.enabled = false;
+        } else {
+            self.enabled = true;
         }
         
         // 单选
@@ -191,6 +191,7 @@
             for (NSDate *date in _manager.selectedDateArray) {
                 if ([_manager.helper date:_date isTheSameDayThan:date]) {
                     self.selected = true;
+                    [self setBackgroundImage:nil forState:UIControlStateSelected];
                     break;
                 }
             }

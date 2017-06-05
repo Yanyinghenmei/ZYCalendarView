@@ -37,8 +37,14 @@
     NSDate *firstDay = [_manager.helper firstDayOfMonth:_date];
         
     for (int i = 0; i < weekNumber; i++) {
-        ZYWeekView *weekView = [[ZYWeekView alloc] initWithFrame:CGRectMake(0, _manager.dayViewHeight+_manager.dayViewGap*2 + (_manager.dayViewHeight+_manager.dayViewGap)*i, self.frame.size.width, _manager.dayViewHeight)];
-        weekView.manager = self.manager;
+        
+        ZYWeekView *weekView = [_manager dequeueReusableWeekViewWithIdentifier:Identifier];
+        if (!weekView) {
+            weekView = [ZYWeekView new];
+            weekView.manager = self.manager;
+        }
+        weekView.frame = CGRectMake(0, _manager.dayViewHeight+_manager.dayViewGap*2 + (_manager.dayViewHeight+_manager.dayViewGap)*i, self.frame.size.width, _manager.dayViewHeight);
+        
         weekView.theMonthFirstDay = firstDay;
         weekView.date = [_manager.helper addToDate:firstDay weeks:i];
         [self addSubview:weekView];

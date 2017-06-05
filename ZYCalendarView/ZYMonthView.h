@@ -13,6 +13,5 @@
 @property (nonatomic, strong)NSDate *date;
 @property (nonatomic, weak)ZYCalendarManager *manager;
 
-- (void)reload;
 
 @end
