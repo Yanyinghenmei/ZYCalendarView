@@ -28,7 +28,6 @@
     for (int i = 0; i < 7; i++) {
         UILabel *week = [[UILabel alloc] initWithFrame:CGRectMake(i*weekW, 20, weekW, 44)];
         week.textAlignment = NSTextAlignmentCenter;
-        week.textColor = ZYHEXCOLOR(0x666666);
         
         [weekTitlesView addSubview:week];
         week.text = titles[i];
@@ -41,7 +40,11 @@
     view.manager.canSelectPastDays = false;
     // 可以选择时间段
     view.manager.selectionType = ZYCalendarSelectionTypeRange;
-    // 设置当前日期
+    
+    // 设置被选中颜色
+    // view.manager.selectedBackgroundColor = [UIColor orangeColor];
+    
+    // 设置当前日期 请在所有参数设置完之后设置日期
     view.date = [NSDate date];
     
     view.dayViewBlock = ^(ZYCalendarManager *manager, NSDate *dayDate) {

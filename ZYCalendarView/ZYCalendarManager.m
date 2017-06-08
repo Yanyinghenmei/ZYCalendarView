@@ -9,12 +9,29 @@
 #import "ZYCalendarManager.h"
 #import "ZYWeekView.h"
 
+#define ZYHEXCOLOR(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0x00FF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0x0000FF))/255.0 \
+alpha:1.0]
+
 @interface ZYCalendarManager ()
 @property (nonatomic, copy)NSMutableArray *reusePool;
 @property (nonatomic, copy)NSMutableDictionary *reusePoolDictionary;
 @end
 
 @implementation ZYCalendarManager
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _selectedBackgroundColor = ZYHEXCOLOR(0xd47b90);
+        _selectedTextColor = [UIColor whiteColor];
+        _defaultTextColor = [UIColor blackColor];
+        _disableTextColor = [UIColor darkGrayColor];
+        _imageRenderingMode = UIImageRenderingModeAlwaysTemplate;
+    }
+    return self;
+}
 
 - (void)registerWeekViewWithReuseIdentifier:(NSString *)identifier {
     !identifier ?: [self.reusePoolDictionary setObject:@[].mutableCopy forKey:identifier];

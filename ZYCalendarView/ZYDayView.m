@@ -12,25 +12,26 @@
 
 @implementation ZYDayView
 
-- (instancetype)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:frame]) {
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        
-        [self initCommit];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeState) name:@"changeState" object:nil];
-    }
-    return self;
-}
-
-- (void)initCommit {
-    [self setTitleColor:defaultTextColor forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-    [self setImage:[UIImage imageNamed:@"circle"] forState:UIControlStateSelected];
+- (void)setManager:(ZYCalendarManager *)manager {
+    _manager = manager;
+    
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.tintColor = _manager.selectedBackgroundColor;
+    
+    [self setTitleColor:_manager.defaultTextColor forState:UIControlStateNormal];
+    [self setTitleColor:_manager.selectedTextColor forState:UIControlStateSelected];
+    [self setTitleColor:_manager.disableTextColor forState:UIControlStateDisabled];
+    [self setImage:[[UIImage imageNamed:@"circle"] imageWithRenderingMode:_manager.imageRenderingMode] forState:UIControlStateSelected];
     
     [self setImage:nil forState:UIControlStateNormal];
     self.backgroundColor = [UIColor clearColor];
+    
+    [self initCommit];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeState) name:@"changeState" object:nil];
+}
+
+- (void)initCommit {
 }
 
 - (void)setDate:(NSDate *)date {
@@ -128,7 +129,7 @@
                          [_manager.helper date:_date isTheSameDayThan:[_manager.helper lastDayOfMonth:_manager.selectedDateArray[1]]]) {
                     self.backgroundColor = [UIColor clearColor];
                 } else {
-                    self.backgroundColor = SelectedBgColor;
+                    self.backgroundColor = _manager.selectedBackgroundColor;
                 }
             } else {
                 self.backgroundColor = [UIColor clearColor];
@@ -147,7 +148,7 @@
         
         // 当前时间
         if ([_manager.helper date:_date isTheSameDayThan:_manager.date] && self.enabled) {
-            [self setImage:[UIImage imageNamed:@"circle_cir"] forState:UIControlStateNormal];
+            [self setImage:[[UIImage imageNamed:@"circle_cir"] imageWithRenderingMode:_manager.imageRenderingMode] forState:UIControlStateNormal];
         } else {
             [self setImage:nil forState:UIControlStateNormal];
         }
@@ -201,7 +202,7 @@
                 if ([_manager.helper date:_date
                                   isAfter:_manager.selectedDateArray[0]
                                 andBefore:_manager.selectedDateArray[1]]) {
-                    self.backgroundColor = SelectedBgColor;
+                    self.backgroundColor = _manager.selectedBackgroundColor;
                     self.selected = true;
                 } else {
                     self.backgroundColor = [UIColor clearColor];
@@ -210,11 +211,11 @@
                 
                 // 设置起始按钮背景图片
                 if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[0]]) {
-                    [self setBackgroundImage:[UIImage imageNamed:@"backImg_start"]
+                    [self setBackgroundImage:[[UIImage imageNamed:@"backImg_start"] imageWithRenderingMode:_manager.imageRenderingMode]
                                     forState:UIControlStateSelected];
                     self.selected = true;
                 } else if ([_manager.helper date:_date isTheSameDayThan:_manager.selectedDateArray[1]]) {
-                    [self setBackgroundImage:[UIImage imageNamed:@"backImg_end"]
+                    [self setBackgroundImage:[[UIImage imageNamed:@"backImg_end"] imageWithRenderingMode:_manager.imageRenderingMode]
                                     forState:UIControlStateSelected];
                     self.selected = true;
                 } else {

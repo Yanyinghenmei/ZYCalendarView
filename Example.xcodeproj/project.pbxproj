@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		047F08A11EE57BD500A97D01 /* ZYEmptyDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047F08A01EE57BD500A97D01 /* ZYEmptyDayView.m */; };
 		651DF13D1DC5F84900A9D7D9 /* ZYCalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */; };
+		652E6DDF1EE99F540035347D /* backImg_end.png in Resources */ = {isa = PBXBuildFile; fileRef = 652E6DDB1EE99F540035347D /* backImg_end.png */; };
+		652E6DE01EE99F540035347D /* backImg_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 652E6DDC1EE99F540035347D /* backImg_start.png */; };
+		652E6DE11EE99F540035347D /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 652E6DDD1EE99F540035347D /* circle.png */; };
+		652E6DE21EE99F540035347D /* circle_cir.png in Resources */ = {isa = PBXBuildFile; fileRef = 652E6DDE1EE99F540035347D /* circle_cir.png */; };
 		65D2EECC1DC2FCB40034CB27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EECB1DC2FCB40034CB27 /* main.m */; };
 		65D2EECF1DC2FCB40034CB27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EECE1DC2FCB40034CB27 /* AppDelegate.m */; };
 		65D2EED21DC2FCB40034CB27 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D2EED11DC2FCB40034CB27 /* ViewController.m */; };
@@ -46,6 +50,10 @@
 		047F08A01EE57BD500A97D01 /* ZYEmptyDayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYEmptyDayView.m; sourceTree = "<group>"; };
 		651DF13B1DC5F84900A9D7D9 /* ZYCalendarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYCalendarManager.h; sourceTree = "<group>"; };
 		651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarManager.m; sourceTree = "<group>"; };
+		652E6DDB1EE99F540035347D /* backImg_end.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backImg_end.png; sourceTree = "<group>"; };
+		652E6DDC1EE99F540035347D /* backImg_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backImg_start.png; sourceTree = "<group>"; };
+		652E6DDD1EE99F540035347D /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
+		652E6DDE1EE99F540035347D /* circle_cir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle_cir.png; sourceTree = "<group>"; };
 		65D2EEC71DC2FCB40034CB27 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D2EECB1DC2FCB40034CB27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		65D2EECD1DC2FCB40034CB27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -99,6 +107,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		652E6DDA1EE99F540035347D /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				652E6DDB1EE99F540035347D /* backImg_end.png */,
+				652E6DDC1EE99F540035347D /* backImg_start.png */,
+				652E6DDD1EE99F540035347D /* circle.png */,
+				652E6DDE1EE99F540035347D /* circle_cir.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		65D2EEBE1DC2FCB40034CB27 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +184,7 @@
 		65D2EEFD1DC33BC50034CB27 /* ZYCalendarView */ = {
 			isa = PBXGroup;
 			children = (
+				652E6DDA1EE99F540035347D /* Images */,
 				65D2EEFE1DC33BD90034CB27 /* ZYCalendarView.h */,
 				65D2EEFF1DC33BD90034CB27 /* ZYCalendarView.m */,
 				65D2EFF71DC357110034CB27 /* JTDateHelper.h */,
@@ -292,8 +312,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				652E6DE01EE99F540035347D /* backImg_start.png in Resources */,
 				65D2EEDA1DC2FCB40034CB27 /* LaunchScreen.storyboard in Resources */,
 				65D2EED71DC2FCB40034CB27 /* Assets.xcassets in Resources */,
+				652E6DE11EE99F540035347D /* circle.png in Resources */,
+				652E6DDF1EE99F540035347D /* backImg_end.png in Resources */,
+				652E6DE21EE99F540035347D /* circle_cir.png in Resources */,
 				65D2EED51DC2FCB40034CB27 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
