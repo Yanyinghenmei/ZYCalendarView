@@ -13,7 +13,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'ZYCalendarView', '~> .0.1'
+pod 'ZYCalendarView', '~> 0.0.1'
 end
 ```
 
