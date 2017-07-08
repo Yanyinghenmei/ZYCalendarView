@@ -1,6 +1,10 @@
 # ZYCalendarView
 ![image](https://github.com/Yanyinghenmei/ZYCalendarView/raw/master/image.gif)
 
+参考JTCalendar, 模仿Airbnb的日历
+
+Reference JTCalendar, imitate Airbnb's calendar
+
 ## How to use
 Download ZYCalendarView and try out the included you iPhone project or use [CocoaPods](http://cocoapods.org).
 
@@ -23,9 +27,7 @@ Then, run the following command:
 $ pod install
 ```
 
-参考JTCalendar, 模仿Airbnb的日历
-
-Reference JTCalendar, imitate Airbnb's calendar
+## Simple code
 
 ```objc
     ZYCalendarView *view = [[ZYCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
