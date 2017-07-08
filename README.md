@@ -1,7 +1,7 @@
 # ZYCalendarView
 ![image](https://github.com/Yanyinghenmei/ZYCalendarView/raw/master/image.gif)
 
-#### How to use
+## How to use
 Download ZYCalendarView and try out the included you iPhone project or use [CocoaPods](http://cocoapods.org).
 
 #### Podfile
