@@ -1,6 +1,28 @@
 # ZYCalendarView
 ![image](https://github.com/Yanyinghenmei/ZYCalendarView/raw/master/image.gif)
 
+#### How to use
+Download ZYCalendarView and try out the included you iPhone project or use [CocoaPods](http://cocoapods.org).
+
+#### Podfile
+
+To integrate ZYCalendarView into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+
+target 'TargetName' do
+pod 'ZYCalendarView', '~> .0.1'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
 参考JTCalendar, 模仿Airbnb的日历
 
 Reference JTCalendar, imitate Airbnb's calendar
