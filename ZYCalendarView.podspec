@@ -25,10 +25,10 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-									模仿Airbnb的日历
+									模仿Airbnb的日历, 有单选、多选和范围选择三种模式
                    DESC
 
-  s.homepage     = "http://EXAMPLE/ZYCalendarView"
+  s.homepage     = "https://github.com/Yanyinghenmei/ZYCalendarView"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "http://EXAMPLE/ZYCalendarView.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/Yanyinghenmei/ZYCalendarView.git", :tag => s.version }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
