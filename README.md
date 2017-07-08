@@ -29,6 +29,10 @@ $ pod install
 
 ## Simple code
 
+```
+#import <ZYCalendarView.h>
+```
+
 ```objc
     ZYCalendarView *view = [[ZYCalendarView alloc] initWithFrame:CGRectMake
                            (0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
