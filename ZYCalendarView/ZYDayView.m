@@ -27,11 +27,11 @@
     [self setImage:nil forState:UIControlStateNormal];
     self.backgroundColor = [UIColor clearColor];
     
-    [self initCommit];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeState) name:@"changeState" object:nil];
 }
 
-- (void)initCommit {
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setDate:(NSDate *)date {

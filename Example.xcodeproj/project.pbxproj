@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047F08A11EE57BD500A97D01 /* ZYEmptyDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047F08A01EE57BD500A97D01 /* ZYEmptyDayView.m */; };
 		651DF13D1DC5F84900A9D7D9 /* ZYCalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */; };
 		652E6DDF1EE99F540035347D /* backImg_end.png in Resources */ = {isa = PBXBuildFile; fileRef = 652E6DDB1EE99F540035347D /* backImg_end.png */; };
 		652E6DE01EE99F540035347D /* backImg_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 652E6DDC1EE99F540035347D /* backImg_start.png */; };
@@ -46,8 +45,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		047F089F1EE57BD500A97D01 /* ZYEmptyDayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYEmptyDayView.h; sourceTree = "<group>"; };
-		047F08A01EE57BD500A97D01 /* ZYEmptyDayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYEmptyDayView.m; sourceTree = "<group>"; };
 		651DF13B1DC5F84900A9D7D9 /* ZYCalendarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYCalendarManager.h; sourceTree = "<group>"; };
 		651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYCalendarManager.m; sourceTree = "<group>"; };
 		652E6DDB1EE99F540035347D /* backImg_end.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backImg_end.png; sourceTree = "<group>"; };
@@ -195,8 +192,6 @@
 				65D2EFFE1DC35D010034CB27 /* ZYWeekView.m */,
 				65D2F0001DC35D160034CB27 /* ZYDayView.h */,
 				65D2F0011DC35D160034CB27 /* ZYDayView.m */,
-				047F089F1EE57BD500A97D01 /* ZYEmptyDayView.h */,
-				047F08A01EE57BD500A97D01 /* ZYEmptyDayView.m */,
 				651DF13B1DC5F84900A9D7D9 /* ZYCalendarManager.h */,
 				651DF13C1DC5F84900A9D7D9 /* ZYCalendarManager.m */,
 			);
@@ -349,7 +344,6 @@
 				65D2EECF1DC2FCB40034CB27 /* AppDelegate.m in Sources */,
 				65D2EFF91DC357110034CB27 /* JTDateHelper.m in Sources */,
 				65D2EECC1DC2FCB40034CB27 /* main.m in Sources */,
-				047F08A11EE57BD500A97D01 /* ZYEmptyDayView.m in Sources */,
 				65D2EFFC1DC3576E0034CB27 /* ZYMonthView.m in Sources */,
 				65D2F0021DC35D160034CB27 /* ZYDayView.m in Sources */,
 				65D2EF001DC33BD90034CB27 /* ZYCalendarView.m in Sources */,
